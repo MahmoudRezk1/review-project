@@ -1,5 +1,6 @@
 package com.global.springreview.base;
 
+import com.global.springreview.exceptions.RecordNotFoundException;
 import jakarta.persistence.MappedSuperclass;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,8 +16,12 @@ public class BaseService<T extends BaseEntity<ID>, ID extends Number> {
         return baseRepo.findAll();
     }
 
-    public Optional<T> findById(ID id) {
-        return baseRepo.findById(id);
+    public T findById(ID id) {
+        Optional<T> response = baseRepo.findById(id);
+        if (response.isPresent()){
+            return response.get();
+        }
+        throw new RecordNotFoundException("this record not found with this id : "+id);
     }
 
     public T insert(T t) {

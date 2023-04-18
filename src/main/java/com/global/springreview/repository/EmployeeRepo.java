@@ -6,10 +6,14 @@ import com.global.springreview.projection.HRStatisticsProjection;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface EmployeeRepo extends BaseRepo<Employee,Long> {
     @Query(value = "select (select count(*) from employees) empCount ," +
             "(select count(*) from departments) deptCount," +
             "(select count(*) from users) userCount",nativeQuery = true)
     HRStatisticsProjection getHRStatistics();
+
+    Optional<Employee> findByEmail(String email);
 }

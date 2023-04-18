@@ -3,6 +3,7 @@ package com.global.springreview.service;
 import com.global.springreview.base.BaseService;
 import com.global.springreview.entity.Department;
 import com.global.springreview.entity.Employee;
+import com.global.springreview.exceptions.DuplicateRecordException;
 import com.global.springreview.projection.HRStatisticsProjection;
 import com.global.springreview.repository.EmployeeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,14 @@ public class EmployeeService extends BaseService<Employee,Long> {
 
     @Override
     public Employee insert(Employee employee) {
+
         if(employee.getDepartment()!=null && employee.getDepartment().getName() != null){
+
+            Optional<Employee> emp =employeeRepo.findByEmail(employee.getEmail());
+            if (emp.isPresent()){
+                throw new DuplicateRecordException("this email is already exist");
+            }
+
             Optional<Department> department = departmentService.findByName(employee.getDepartment().getName());
             department.ifPresent(employee::setDepartment);
         }

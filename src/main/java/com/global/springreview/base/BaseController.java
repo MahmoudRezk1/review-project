@@ -20,7 +20,7 @@ public class BaseController<T extends BaseEntity<ID>, ID extends Number> {
     }
 
     @GetMapping(path = "/{id}")
-    public Optional<T> findById(@PathVariable ID id) {
+    public T findById(@PathVariable ID id) {
         return baseService.findById(id);
     }
 
