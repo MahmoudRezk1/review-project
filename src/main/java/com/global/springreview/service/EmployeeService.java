@@ -7,6 +7,8 @@ import com.global.springreview.exceptions.DuplicateRecordException;
 import com.global.springreview.projection.HRStatisticsProjection;
 import com.global.springreview.repository.EmployeeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,6 +19,8 @@ public class EmployeeService extends BaseService<Employee,Long> {
     private EmployeeRepo employeeRepo;
     @Autowired
     private DepartmentService departmentService;
+    @Autowired
+    private MessageSource messageSource;
 
     @Override
     public Employee insert(Employee employee) {
@@ -25,7 +29,9 @@ public class EmployeeService extends BaseService<Employee,Long> {
 
             Optional<Employee> emp =employeeRepo.findByEmail(employee.getEmail());
             if (emp.isPresent()){
-                throw new DuplicateRecordException("this email is already exist");
+                String message =messageSource.getMessage("validation.constraints.Email.duplicated.message"
+                        ,null, LocaleContextHolder.getLocale());
+                throw new DuplicateRecordException(message);
             }
 
             Optional<Department> department = departmentService.findByName(employee.getDepartment().getName());

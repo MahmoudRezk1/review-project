@@ -19,16 +19,16 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Employee extends BaseEntity<Long> {
 
-    @NotBlank(message = "you must insert a name")
+    @NotBlank(message = "{validation.constraints.name.message}")
     @Column(length = 255)
     private String name;
 
-    @NotBlank(message = "you must insert an email")
-    @Email
+    @NotBlank(message = "{validation.constraints.Email.Blank.message}")
+    @Email(message = "{validation.constraints.Email.message}")
     @Column(length = 255)
     private String email;
 
-    @NotBlank(message = "you must insert a number")
+    @NotBlank(message = "{validation.constraints.phoneNumber.message}")
     @Column(length = 15)
     private String phoneNumber;
 
