@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 public class AppStartup implements CommandLineRunner {
     @Autowired
     private RoleService roleService;
+
     @Override
     public void run(String... args) throws Exception {
         if (roleService.findAll().isEmpty()) {

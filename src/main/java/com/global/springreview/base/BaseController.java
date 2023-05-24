@@ -13,11 +13,13 @@ import java.util.List;
 public class BaseController<T extends BaseEntity<ID>, ID extends Number> {
     @Autowired
     private BaseService<T, ID> baseService;
+
     @Operation(summary = "get all items")
     @GetMapping
     public List<T> findAll() {
         return baseService.findAll();
     }
+
     @Operation(summary = "get item by id")
     @GetMapping(path = "/{id}")
     public T findById(@PathVariable ID id) {
